@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mozi.stock.mapper.StockMarketIndexInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.mozi.stock.entity.StockMarketIndexInfo">
+            <id property="id" column="id" />
+            <result property="markId" column="mark_Id" />
+            <result property="curTime" column="cur_time" />
+            <result property="markName" column="mark_name" />
+            <result property="curPoint" column="cur_point" />
+            <result property="currentPrice" column="current_price" />
+            <result property="updownRate" column="updown_rate" />
+            <result property="tradeAccount" column="trade_account" />
+            <result property="tradeVolume" column="trade_volume" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,mark_Id,cur_time,mark_name,cur_point,current_price,
+        updown_rate,trade_account,trade_volume
+    </sql>
+</mapper>
