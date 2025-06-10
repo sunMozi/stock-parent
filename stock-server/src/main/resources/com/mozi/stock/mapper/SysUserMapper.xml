@@ -27,4 +27,129 @@
         email,status,sex,deleted,create_id,
         update_id,create_where,create_time,update_time
     </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sys_user
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.SysUser" useGeneratedKeys="true">
+        insert into sys_user
+        ( id,username,password,phone,real_name,nick_name,
+        email,status,sex,deleted,create_id,
+        update_id,create_where,create_time,update_time)
+        values (#{id},#{username},#{password},#{phone},#{realName},#{nickName},
+        #{email},#{status},#{sex},#{deleted},#{createId},
+        #{updateId},#{createWhere},#{createTime},#{updateTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.SysUser" useGeneratedKeys="true">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="username != null">username,</if>
+                <if test="password != null">password,</if>
+                <if test="phone != null">phone,</if>
+                <if test="realName != null">real_name,</if>
+                <if test="nickName != null">nick_name,</if>
+                <if test="email != null">email,</if>
+                <if test="status != null">status,</if>
+                <if test="sex != null">sex,</if>
+                <if test="deleted != null">deleted,</if>
+                <if test="createId != null">create_id,</if>
+                <if test="updateId != null">update_id,</if>
+                <if test="createWhere != null">create_where,</if>
+                <if test="createTime != null">create_time,</if>
+                <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="username != null">#{username},</if>
+                <if test="password != null">#{password},</if>
+                <if test="phone != null">#{phone},</if>
+                <if test="realName != null">#{realName},</if>
+                <if test="nickName != null">#{nickName},</if>
+                <if test="email != null">#{email},</if>
+                <if test="status != null">#{status},</if>
+                <if test="sex != null">#{sex},</if>
+                <if test="deleted != null">#{deleted},</if>
+                <if test="createId != null">#{createId},</if>
+                <if test="updateId != null">#{updateId},</if>
+                <if test="createWhere != null">#{createWhere},</if>
+                <if test="createTime != null">#{createTime},</if>
+                <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.SysUser">
+        update sys_user
+        <set>
+                <if test="username != null">
+                    username = #{username},
+                </if>
+                <if test="password != null">
+                    password = #{password},
+                </if>
+                <if test="phone != null">
+                    phone = #{phone},
+                </if>
+                <if test="realName != null">
+                    real_name = #{realName},
+                </if>
+                <if test="nickName != null">
+                    nick_name = #{nickName},
+                </if>
+                <if test="email != null">
+                    email = #{email},
+                </if>
+                <if test="status != null">
+                    status = #{status},
+                </if>
+                <if test="sex != null">
+                    sex = #{sex},
+                </if>
+                <if test="deleted != null">
+                    deleted = #{deleted},
+                </if>
+                <if test="createId != null">
+                    create_id = #{createId},
+                </if>
+                <if test="updateId != null">
+                    update_id = #{updateId},
+                </if>
+                <if test="createWhere != null">
+                    create_where = #{createWhere},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mozi.stock.entity.SysUser">
+        update sys_user
+        set 
+            username =  #{username},
+            password =  #{password},
+            phone =  #{phone},
+            real_name =  #{realName},
+            nick_name =  #{nickName},
+            email =  #{email},
+            status =  #{status},
+            sex =  #{sex},
+            deleted =  #{deleted},
+            create_id =  #{createId},
+            update_id =  #{updateId},
+            create_where =  #{createWhere},
+            create_time =  #{createTime},
+            update_time =  #{updateTime}
+        where   id = #{id} 
+    </update>
 </mapper>

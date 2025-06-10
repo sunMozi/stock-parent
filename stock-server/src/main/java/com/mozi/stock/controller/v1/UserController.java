@@ -1,4 +1,4 @@
-package com.mozi.stock.controller;
+package com.mozi.stock.controller.v1;
 
 import com.mozi.stock.api.UserControllerAPI;
 import org.springframework.web.bind.annotation.RestController;

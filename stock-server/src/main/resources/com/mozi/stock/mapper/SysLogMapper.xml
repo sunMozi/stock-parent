@@ -20,4 +20,91 @@
         id,user_id,username,operation,time,method,
         params,ip,create_time
     </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_log
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sys_log
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.SysLog" useGeneratedKeys="true">
+        insert into sys_log
+        ( id,user_id,username,operation,time,method,
+        params,ip,create_time)
+        values (#{id},#{userId},#{username},#{operation},#{time},#{method},
+        #{params},#{ip},#{createTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.SysLog" useGeneratedKeys="true">
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="username != null">username,</if>
+                <if test="operation != null">operation,</if>
+                <if test="time != null">time,</if>
+                <if test="method != null">method,</if>
+                <if test="params != null">params,</if>
+                <if test="ip != null">ip,</if>
+                <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="userId != null">#{userId},</if>
+                <if test="username != null">#{username},</if>
+                <if test="operation != null">#{operation},</if>
+                <if test="time != null">#{time},</if>
+                <if test="method != null">#{method},</if>
+                <if test="params != null">#{params},</if>
+                <if test="ip != null">#{ip},</if>
+                <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.SysLog">
+        update sys_log
+        <set>
+                <if test="userId != null">
+                    user_id = #{userId},
+                </if>
+                <if test="username != null">
+                    username = #{username},
+                </if>
+                <if test="operation != null">
+                    operation = #{operation},
+                </if>
+                <if test="time != null">
+                    time = #{time},
+                </if>
+                <if test="method != null">
+                    method = #{method},
+                </if>
+                <if test="params != null">
+                    params = #{params},
+                </if>
+                <if test="ip != null">
+                    ip = #{ip},
+                </if>
+                <if test="createTime != null">
+                    create_time = #{createTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mozi.stock.entity.SysLog">
+        update sys_log
+        set 
+            user_id =  #{userId},
+            username =  #{username},
+            operation =  #{operation},
+            time =  #{time},
+            method =  #{method},
+            params =  #{params},
+            ip =  #{ip},
+            create_time =  #{createTime}
+        where   id = #{id} 
+    </update>
 </mapper>

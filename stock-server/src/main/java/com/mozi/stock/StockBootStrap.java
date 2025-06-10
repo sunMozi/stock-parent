@@ -10,11 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description 引导类
  */
 @SpringBootApplication
-@MapperScan(basePackages = {"com.mozi.stock.mapper"})
+@MapperScan("com.mozi.stock.mapper")
 public class StockBootStrap {
 
-    public static void main(String[] args) {
-        SpringApplication.run(StockBootStrap.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(StockBootStrap.class, args);
+  }
 
 }

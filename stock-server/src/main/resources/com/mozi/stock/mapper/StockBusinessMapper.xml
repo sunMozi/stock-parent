@@ -16,4 +16,13 @@
     <sql id="Base_Column_List">
         sec_code,sec_name,sector_code,sector_name,business,update_time
     </sql>
+  <select id="selectAll" resultType="com.mozi.stock.entity.StockBusiness">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    stock_business
+
+  </select>
+
+
 </mapper>

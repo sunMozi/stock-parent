@@ -1,6 +1,6 @@
 # 配置mybatis
 mybatis:
-  type-aliases-package: com.mozi.stock.model
+  type-aliases-package: com.mozi.stock
   mapper-locations: classpath:com/mozi/stock/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true #开启驼峰命名 Java类中属性和 和表中字段自动映射，比如, userId <->user_id

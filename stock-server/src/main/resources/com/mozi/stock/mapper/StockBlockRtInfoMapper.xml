@@ -20,4 +20,91 @@
         id,label,block_name,company_num,avg_price,updown_rate,
         trade_amount,trade_volume,cur_time
     </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from stock_block_rt_info
+        where  id = #{id} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from stock_block_rt_info
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockBlockRtInfo" useGeneratedKeys="true">
+        insert into stock_block_rt_info
+        ( id,label,block_name,company_num,avg_price,updown_rate,
+        trade_amount,trade_volume,cur_time)
+        values (#{id},#{label},#{blockName},#{companyNum},#{avgPrice},#{updownRate},
+        #{tradeAmount},#{tradeVolume},#{curTime})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockBlockRtInfo" useGeneratedKeys="true">
+        insert into stock_block_rt_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="label != null">label,</if>
+                <if test="blockName != null">block_name,</if>
+                <if test="companyNum != null">company_num,</if>
+                <if test="avgPrice != null">avg_price,</if>
+                <if test="updownRate != null">updown_rate,</if>
+                <if test="tradeAmount != null">trade_amount,</if>
+                <if test="tradeVolume != null">trade_volume,</if>
+                <if test="curTime != null">cur_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="label != null">#{label},</if>
+                <if test="blockName != null">#{blockName},</if>
+                <if test="companyNum != null">#{companyNum},</if>
+                <if test="avgPrice != null">#{avgPrice},</if>
+                <if test="updownRate != null">#{updownRate},</if>
+                <if test="tradeAmount != null">#{tradeAmount},</if>
+                <if test="tradeVolume != null">#{tradeVolume},</if>
+                <if test="curTime != null">#{curTime},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.StockBlockRtInfo">
+        update stock_block_rt_info
+        <set>
+                <if test="label != null">
+                    label = #{label},
+                </if>
+                <if test="blockName != null">
+                    block_name = #{blockName},
+                </if>
+                <if test="companyNum != null">
+                    company_num = #{companyNum},
+                </if>
+                <if test="avgPrice != null">
+                    avg_price = #{avgPrice},
+                </if>
+                <if test="updownRate != null">
+                    updown_rate = #{updownRate},
+                </if>
+                <if test="tradeAmount != null">
+                    trade_amount = #{tradeAmount},
+                </if>
+                <if test="tradeVolume != null">
+                    trade_volume = #{tradeVolume},
+                </if>
+                <if test="curTime != null">
+                    cur_time = #{curTime},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mozi.stock.entity.StockBlockRtInfo">
+        update stock_block_rt_info
+        set 
+            label =  #{label},
+            block_name =  #{blockName},
+            company_num =  #{companyNum},
+            avg_price =  #{avgPrice},
+            updown_rate =  #{updownRate},
+            trade_amount =  #{tradeAmount},
+            trade_volume =  #{tradeVolume},
+            cur_time =  #{curTime}
+        where   id = #{id} 
+    </update>
 </mapper>

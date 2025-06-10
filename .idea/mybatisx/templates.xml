@@ -94,13 +94,13 @@
                 </TableUIInfo>
               </list>
             </option>
-            <option name="templatesName" value="default-empty" />
+            <option name="templatesName" value="default-all" />
             <option name="useLombokPlugin" value="true" />
           </GenerateConfig>
         </option>
         <option name="moduleName" value="stock-server" />
         <option name="projectPath" value="$PROJECT_DIR$" />
-        <option name="templateName" value="default-empty" />
+        <option name="templateName" value="default-all" />
       </TemplateContext>
     </option>
   </component>
