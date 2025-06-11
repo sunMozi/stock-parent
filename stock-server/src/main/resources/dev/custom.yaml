@@ -1,4 +1,9 @@
 id-worker:
   config:
-    data-center-id: 1
-    machine-id: 1
+    datacenterId: 1
+    workerId: 1
+
+limiter:
+  config:
+    concurrent-num: 10
+

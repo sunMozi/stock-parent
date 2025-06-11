@@ -11,13 +11,12 @@ import org.springframework.stereotype.Controller;
  * @date 2025/6/11 11:53
  * @description
  */
-@ConfigurationProperties(prefix = "id-worker.config")
+@ConfigurationProperties(prefix = "limiter.config")
 @Controller
 @Setter
 @Getter
-public class IdWorkersProperties {
+public class LimiterProperties {
 
-  private long datacenterId;
-  private long workerId;
+  private int concurrentNum;
 
 }

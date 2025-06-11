@@ -3,6 +3,7 @@ package com.mozi.stock.util;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>名称：IdWorker.java</p>
@@ -23,6 +24,7 @@ import java.net.NetworkInterface;
  * @author Polim
  */
 @SuppressWarnings("all")
+@Component
 public class IdWorkers {
 
   // 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）

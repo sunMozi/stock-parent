@@ -1,7 +1,7 @@
 package com.mozi.stock.api;
 
 import com.mozi.stock.response.ResponseResult;
-import com.mozi.stock.vo.CapthcVO;
+import com.mozi.stock.vo.CaptchaVO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,7 +11,7 @@ public interface UserControllerAPI {
 
 
   @GetMapping(path = "/captcha")
-  ResponseResult<CapthcVO> captcha();
+  ResponseResult<CaptchaVO> captcha();
 
   /**
    * 环境测试接口

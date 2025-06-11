@@ -5,7 +5,7 @@ import com.mozi.stock.enums.CodeEnum;
 import com.mozi.stock.exception.Exceptions;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.service.UserService;
-import com.mozi.stock.vo.CapthcVO;
+import com.mozi.stock.vo.CaptchaVO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +21,7 @@ public class UserController implements UserControllerAPI {
   private UserService userService;
 
   @Override
-  public ResponseResult<CapthcVO> captcha() {
+  public ResponseResult<CaptchaVO> captcha() {
     return ResponseResult.ok(userService.captcha());
   }
 

@@ -1,6 +1,6 @@
 package com.mozi.stock.service;
 
-import com.mozi.stock.vo.CapthcVO;
+import com.mozi.stock.vo.CaptchaVO;
 
 /**
  * @author MoZi
@@ -8,5 +8,5 @@ import com.mozi.stock.vo.CapthcVO;
  */
 public interface UserService {
 
-  CapthcVO captcha();
+  CaptchaVO captcha();
 }
