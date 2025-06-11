@@ -49,6 +49,7 @@
     <guava.version>33.2.0-jre</guava.version>
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+    <hutool.all.version>5.8.29</hutool.all.version>
   </properties>
 
   <!--项目依赖管理-->
@@ -124,7 +125,13 @@
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
       </dependency>
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-all</artifactId>
+        <version>${hutool.all.version}</version>
+      </dependency>
     </dependencies>
+
   </dependencyManagement>
   <build>
     <!--项目插件管理-->
