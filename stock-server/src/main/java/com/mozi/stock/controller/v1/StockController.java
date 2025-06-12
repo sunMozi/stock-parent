@@ -5,6 +5,7 @@ import com.mozi.stock.api.StockControllerAPI;
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.service.StockService;
+import com.mozi.stock.vo.InnerMarketVO;
 import jakarta.annotation.Resource;
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,5 +25,10 @@ public class StockController implements StockControllerAPI {
   public ResponseResult<List<StockBusiness>> getStockBusiness() {
     return ResponseResult.ok(stockService.getStockBusiness());
 
+  }
+
+  @Override
+  public ResponseResult<InnerMarketVO> innerIndexAll() {
+    return null;
   }
 }
