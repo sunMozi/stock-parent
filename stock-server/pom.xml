@@ -23,11 +23,11 @@
       <artifactId>spring-boot-configuration-processor</artifactId>
     </dependency>
     <!--开发工具：热加载提升项目启动速度，开发阶段使用打包排除-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.springframework.boot</groupId>-->
+    <!--      <artifactId>spring-boot-devtools</artifactId>-->
+    <!--      <scope>runtime</scope>-->
+    <!--    </dependency>-->
     <!--    spring boot mybatis 起步依赖-->
     <dependency>
       <groupId>org.mybatis.spring.boot</groupId>

@@ -4,6 +4,7 @@ package com.mozi.stock.api;
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.vo.InnerMarketVO;
+import com.mozi.stock.vo.SectorAllVO;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,9 @@ public interface StockControllerAPI {
 
   @GetMapping("/index/all")
   ResponseResult<List<InnerMarketVO>> innerIndexAll();
+
+  @GetMapping("/sector/all")
+  ResponseResult<List<SectorAllVO>> sectorAll();
 
 
 }
