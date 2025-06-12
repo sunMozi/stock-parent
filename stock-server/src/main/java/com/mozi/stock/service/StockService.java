@@ -2,6 +2,7 @@ package com.mozi.stock.service;
 
 
 import com.mozi.stock.entity.StockBusiness;
+import com.mozi.stock.vo.InnerMarketVO;
 import java.util.List;
 
 /**
@@ -12,4 +13,6 @@ import java.util.List;
 public interface StockService {
 
   List<StockBusiness> getStockBusiness();
+
+  List<InnerMarketVO> innerIndexAll();
 }

@@ -20,7 +20,7 @@ public interface StockControllerAPI {
   ResponseResult<List<StockBusiness>> getStockBusiness();
 
   @GetMapping("/index/all")
-  ResponseResult<InnerMarketVO> innerIndexAll();
+  ResponseResult<List<InnerMarketVO>> innerIndexAll();
 
 
 }

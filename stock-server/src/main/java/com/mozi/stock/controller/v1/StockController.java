@@ -28,7 +28,7 @@ public class StockController implements StockControllerAPI {
   }
 
   @Override
-  public ResponseResult<InnerMarketVO> innerIndexAll() {
-    return null;
+  public ResponseResult<List<InnerMarketVO>> innerIndexAll() {
+    return ResponseResult.ok(stockService.innerIndexAll());
   }
 }
