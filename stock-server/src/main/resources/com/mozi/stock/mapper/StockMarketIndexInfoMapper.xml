@@ -27,8 +27,21 @@
         from stock_market_index_info
         where  id = #{id} 
     </select>
+  <select id="selectByInnerAndTime"
+          resultType="com.mozi.stock.entity.StockMarketIndexInfo">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    stock_market_index_info
+    where
+    mark_Id in
+    <foreach collection="inner" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+    and cur_time = #{last}
+  </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_market_index_info
         where  id = #{id} 
     </delete>

@@ -2,10 +2,18 @@ package com.mozi.stock.service.impl;
 
 
 import com.mozi.stock.entity.StockBusiness;
+import com.mozi.stock.entity.StockMarketIndexInfo;
+import com.mozi.stock.entity.StockMarketLogPrice;
 import com.mozi.stock.mapper.StockBusinessMapper;
+import com.mozi.stock.mapper.StockMarketIndexInfoMapper;
+import com.mozi.stock.mapper.StockMarketLogPriceMapper;
+import com.mozi.stock.properties.MarketProperties;
 import com.mozi.stock.service.StockService;
+import com.mozi.stock.util.DateTimeUtil;
 import com.mozi.stock.vo.InnerMarketVO;
-import jakarta.annotation.Resource;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +26,20 @@ import org.springframework.stereotype.Service;
 public class StockServiceImpl implements StockService {
 
 
-  @Resource
-  private StockBusinessMapper stockBusinessMapper;
+  private final StockBusinessMapper stockBusinessMapper;
+  private final MarketProperties marketProperties;
+  private final StockMarketIndexInfoMapper stockMarketIndexInfoMapper;
+  private final StockMarketLogPriceMapper stockMarketLogPriceMapper;
+
+  public StockServiceImpl(StockBusinessMapper stockBusinessMapper,
+                          MarketProperties marketProperties,
+                          StockMarketIndexInfoMapper stockMarketIndexInfoMapper,
+                          StockMarketLogPriceMapper stockMarketLogPriceMapper) {
+    this.stockBusinessMapper = stockBusinessMapper;
+    this.marketProperties = marketProperties;
+    this.stockMarketIndexInfoMapper = stockMarketIndexInfoMapper;
+    this.stockMarketLogPriceMapper = stockMarketLogPriceMapper;
+  }
 
   @Override
   public List<StockBusiness> getStockBusiness() {
@@ -28,6 +48,45 @@ public class StockServiceImpl implements StockService {
 
   @Override
   public List<InnerMarketVO> innerIndexAll() {
-    return null;
+    List<String> inner = marketProperties.getInner();
+
+    // 实际时间
+    LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
+
+    // mock data TODO 模拟数据
+    String mockDate = "20211226105600";
+    last = LocalDateTime.parse(mockDate, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
+    List<StockMarketIndexInfo> stockMarketIndexInfoList = stockMarketIndexInfoMapper.selectByInnerAndTime(
+        inner,
+        last);
+    List<StockMarketLogPrice> stockMarketLogPrices = stockMarketLogPriceMapper.selectByInnerAndDate(
+        inner,
+        last.toLocalDate());
+
+    return stockMarketIndexInfoList.stream().map((info) -> {
+      InnerMarketVO innerMarketVO = InnerMarketVO.builder()
+                                                 .code(info.getMarkId())
+                                                 .name(info.getMarkName())
+                                                 .curDate(info.getCurTime()
+                                                              .toLocalDate()
+                                                              .toString())
+                                                 .tradeAmt(info.getTradeAccount())
+                                                 .tradePrice(info.getCurrentPrice())
+                                                 .tradeVol(info.getTradeVolume())
+                                                 .upDown(info.getUpdownRate())
+                                                 .build();
+      stockMarketLogPrices.forEach(logPrice -> {
+        if (logPrice.getMarketCode().equals(info.getMarkId())) {
+          innerMarketVO.setOpenPrice(logPrice.getOpenPrice());
+          innerMarketVO.setPreClosePrice(logPrice.getPreClosePrice());
+        } else {
+          innerMarketVO.setOpenPrice(BigDecimal.ZERO);
+          innerMarketVO.setPreClosePrice(BigDecimal.ZERO);
+        }
+      });
+
+      return innerMarketVO;
+    }).toList();
   }
 }
