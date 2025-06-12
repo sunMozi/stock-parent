@@ -1,6 +1,8 @@
 package com.mozi.stock.service;
 
+import com.mozi.stock.dto.LoginDTO;
 import com.mozi.stock.vo.CaptchaVO;
+import com.mozi.stock.vo.LoginVO;
 
 /**
  * @author MoZi
@@ -9,4 +11,6 @@ import com.mozi.stock.vo.CaptchaVO;
 public interface UserService {
 
   CaptchaVO captcha();
+
+  LoginVO login(LoginDTO loginDTO);
 }

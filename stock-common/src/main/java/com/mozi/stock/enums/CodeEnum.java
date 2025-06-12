@@ -10,6 +10,7 @@ public enum CodeEnum implements Code {
   ERROR(0, "操作失败"),
   SUCCESS(1, "操作成功"),
 
+  PARAM_ID_NOT_NULL(0, "参数不能为空"),
   DATA_ERROR(0, "参数异常"),
   NO_RESPONSE_DATA(0, "无响应数据"),
 

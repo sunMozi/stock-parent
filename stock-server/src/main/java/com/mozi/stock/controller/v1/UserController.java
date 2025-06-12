@@ -1,12 +1,15 @@
 package com.mozi.stock.controller.v1;
 
 import com.mozi.stock.api.UserControllerAPI;
+import com.mozi.stock.dto.LoginDTO;
 import com.mozi.stock.enums.CodeEnum;
 import com.mozi.stock.exception.Exceptions;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.service.UserService;
 import com.mozi.stock.vo.CaptchaVO;
+import com.mozi.stock.vo.LoginVO;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,6 +22,11 @@ public class UserController implements UserControllerAPI {
 
   @Resource
   private UserService userService;
+
+  @Override
+  public ResponseResult<LoginVO> login(@RequestBody LoginDTO loginDTO) {
+    return ResponseResult.ok(userService.login(loginDTO));
+  }
 
   @Override
   public ResponseResult<CaptchaVO> captcha() {
