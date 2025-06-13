@@ -9,6 +9,7 @@ import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.SectorAllVO;
 import jakarta.annotation.Resource;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StockController implements StockControllerAPI {
 
-  @Resource
-  private StockService stockService;
+  private final StockService stockService;
+
+  public StockController(StockService stockService) {
+    this.stockService = stockService;
+  }
 
   @Override
   public ResponseResult<List<StockBusiness>> getStockBusiness() {
@@ -35,6 +39,6 @@ public class StockController implements StockControllerAPI {
 
   @Override
   public ResponseResult<List<SectorAllVO>> sectorAll() {
-    return null;
+    return ResponseResult.ok(stockService.sectorAll());
   }
 }

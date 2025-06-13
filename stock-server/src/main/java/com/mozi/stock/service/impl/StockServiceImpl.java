@@ -1,9 +1,11 @@
 package com.mozi.stock.service.impl;
 
 
+import com.mozi.stock.entity.StockBlockRtInfo;
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.entity.StockMarketIndexInfo;
 import com.mozi.stock.entity.StockMarketLogPrice;
+import com.mozi.stock.mapper.StockBlockRtInfoMapper;
 import com.mozi.stock.mapper.StockBusinessMapper;
 import com.mozi.stock.mapper.StockMarketIndexInfoMapper;
 import com.mozi.stock.mapper.StockMarketLogPriceMapper;
@@ -11,6 +13,7 @@ import com.mozi.stock.properties.MarketProperties;
 import com.mozi.stock.service.StockService;
 import com.mozi.stock.util.DateTimeUtil;
 import com.mozi.stock.vo.InnerMarketVO;
+import com.mozi.stock.vo.SectorAllVO;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,15 +33,18 @@ public class StockServiceImpl implements StockService {
   private final MarketProperties marketProperties;
   private final StockMarketIndexInfoMapper stockMarketIndexInfoMapper;
   private final StockMarketLogPriceMapper stockMarketLogPriceMapper;
+  private final StockBlockRtInfoMapper stockBlockRtInfoMapper;
 
   public StockServiceImpl(StockBusinessMapper stockBusinessMapper,
                           MarketProperties marketProperties,
                           StockMarketIndexInfoMapper stockMarketIndexInfoMapper,
-                          StockMarketLogPriceMapper stockMarketLogPriceMapper) {
+                          StockMarketLogPriceMapper stockMarketLogPriceMapper,
+                          StockBlockRtInfoMapper stockBlockRtInfoMapper) {
     this.stockBusinessMapper = stockBusinessMapper;
     this.marketProperties = marketProperties;
     this.stockMarketIndexInfoMapper = stockMarketIndexInfoMapper;
     this.stockMarketLogPriceMapper = stockMarketLogPriceMapper;
+    this.stockBlockRtInfoMapper = stockBlockRtInfoMapper;
   }
 
   @Override
@@ -88,5 +94,35 @@ public class StockServiceImpl implements StockService {
 
       return innerMarketVO;
     }).toList();
+  }
+
+  @Override
+  public List<SectorAllVO> sectorAll() {
+    LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
+
+    // 模拟数据
+    last = LocalDateTime.parse("2021-12-21 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+    LocalDateTime begin = DateTimeUtil.getOpenDate(last);
+    LocalDateTime end = DateTimeUtil.getCloseDate(last);
+
+    List<StockBlockRtInfo> stockBlockRtInfos = stockBlockRtInfoMapper.selectByDateTimeDesc(begin,
+                                                                                           end);
+
+    return stockBlockRtInfos.stream()
+                            .map((info) -> SectorAllVO.builder()
+                                                      .name(info.getBlockName())
+                                                      .code(info.getLabel())
+                                                      .avgPrice(info.getAvgPrice())
+                                                      .companyNum(info.getCompanyNum())
+                                                      .updownRate(info.getUpdownRate())
+                                                      .tradeVol(info.getTradeVolume())
+                                                      .tradeAmt(info.getTradeAmount())
+                                                      //TODO
+                                                      .curDate(info.getCurTime()
+                                                                   .toLocalDate()
+                                                                   .toString())
+                                                      .build())
+                            .toList();
   }
 }

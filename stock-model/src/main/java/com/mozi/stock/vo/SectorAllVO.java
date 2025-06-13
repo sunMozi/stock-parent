@@ -39,7 +39,7 @@ public class SectorAllVO {
   private String curDate;
 
   /** 成交总金额 */
-  private Long tradeVol;
+  private BigDecimal tradeVol;
 
   /** 涨跌幅（单位：百分比，如0.196表示0.196%） */
   private BigDecimal updownRate;
