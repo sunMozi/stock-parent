@@ -1,6 +1,9 @@
 package com.mozi.stock.mapper;
 
+import com.mozi.stock.entity.StockBlockRtInfo;
 import com.mozi.stock.entity.StockRtInfo;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
 * @author moZiA
@@ -22,4 +25,5 @@ public interface StockRtInfoMapper {
 
     int updateByPrimaryKey(StockRtInfo record);
 
+    List<StockRtInfo> selectByDateTime(LocalDateTime last);
 }

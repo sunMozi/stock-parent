@@ -3,6 +3,7 @@ package com.mozi.stock.api;
 
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.response.ResponseResult;
+import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.SectorAllVO;
 import java.util.List;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @RequestMapping(path = "/api/quot")
 public interface StockControllerAPI {
+
+  @GetMapping("/stock/increase")
+  ResponseResult<List<IncreaseVO>> stockIncrease();
 
   @GetMapping("/stock/business/all")
   ResponseResult<List<StockBusiness>> getStockBusiness();

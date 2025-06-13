@@ -5,6 +5,7 @@ import com.mozi.stock.api.StockControllerAPI;
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.service.StockService;
+import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.SectorAllVO;
 import jakarta.annotation.Resource;
@@ -24,6 +25,11 @@ public class StockController implements StockControllerAPI {
 
   public StockController(StockService stockService) {
     this.stockService = stockService;
+  }
+
+  @Override
+  public ResponseResult<List<IncreaseVO>> stockIncrease() {
+    return ResponseResult.ok(stockService.stockIncrease());
   }
 
   @Override

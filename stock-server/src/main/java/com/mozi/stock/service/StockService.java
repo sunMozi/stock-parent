@@ -2,6 +2,7 @@ package com.mozi.stock.service;
 
 
 import com.mozi.stock.entity.StockBusiness;
+import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.SectorAllVO;
 import java.util.List;
@@ -18,4 +19,6 @@ public interface StockService {
   List<InnerMarketVO> innerIndexAll();
 
   List<SectorAllVO> sectorAll();
+
+  List<IncreaseVO> stockIncrease();
 }
