@@ -167,12 +167,14 @@ public class StockServiceImpl implements StockService {
       // 涨幅计算（保留 2 位小数，四舍五入）
       BigDecimal increase = info.getCurPrice()
                                 .subtract(info.getPreClosePrice())
-                                .divide(info.getPreClosePrice(), 2, RoundingMode.HALF_UP); // 关键修改
+                                .divide(info.getPreClosePrice(), 6, RoundingMode.HALF_UP);
 
-      // 振幅计算（保留 2 位小数，四舍五入）
+      // 振幅计算（保留 2 位小数，直接截断，不四舍五入）
       BigDecimal amplitude = info.getMaxPrice()
                                  .subtract(info.getMinPrice())
-                                 .divide(info.getPreClosePrice(), 2, RoundingMode.HALF_UP); // 关键修改
+                                 .divide(info.getPreClosePrice(),
+                                         6,
+                                         RoundingMode.DOWN); // 保留两位小数，向下取整（截断）
 
       // 涨跌
       BigDecimal unDown = info.getCurPrice().subtract(info.getPreClosePrice());
