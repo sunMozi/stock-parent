@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mozi.stock.mapper.StockMarketIndexInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.mozi.stock.entity.StockMarketIndexInfo">
+            <id property="id" column="id" />
+            <result property="markId" column="mark_Id" />
+            <result property="curTime" column="cur_time" />
+            <result property="markName" column="mark_name" />
+            <result property="curPoint" column="cur_point" />
+            <result property="currentPrice" column="current_price" />
+            <result property="updownRate" column="updown_rate" />
+            <result property="tradeAccount" column="trade_account" />
+            <result property="tradeVolume" column="trade_volume" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,mark_Id,cur_time,mark_name,cur_point,current_price,
+        updown_rate,trade_account,trade_volume
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from stock_market_index_info
+        where  id = #{id} 
+    </select>
+  <select id="selectByInnerAndTime"
+          resultType="com.mozi.stock.entity.StockMarketIndexInfo">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    stock_market_index_info
+    where
+    mark_Id in
+    <foreach collection="inner" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+    and cur_time = #{last}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from stock_market_index_info
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockMarketIndexInfo" useGeneratedKeys="true">
+        insert into stock_market_index_info
+        ( id,mark_Id,cur_time,mark_name,cur_point,current_price,
+        updown_rate,trade_account,trade_volume)
+        values (#{id},#{markId},#{curTime},#{markName},#{curPoint},#{currentPrice},
+        #{updownRate},#{tradeAccount},#{tradeVolume})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockMarketIndexInfo" useGeneratedKeys="true">
+        insert into stock_market_index_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="markId != null">mark_Id,</if>
+                <if test="curTime != null">cur_time,</if>
+                <if test="markName != null">mark_name,</if>
+                <if test="curPoint != null">cur_point,</if>
+                <if test="currentPrice != null">current_price,</if>
+                <if test="updownRate != null">updown_rate,</if>
+                <if test="tradeAccount != null">trade_account,</if>
+                <if test="tradeVolume != null">trade_volume,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="markId != null">#{markId},</if>
+                <if test="curTime != null">#{curTime},</if>
+                <if test="markName != null">#{markName},</if>
+                <if test="curPoint != null">#{curPoint},</if>
+                <if test="currentPrice != null">#{currentPrice},</if>
+                <if test="updownRate != null">#{updownRate},</if>
+                <if test="tradeAccount != null">#{tradeAccount},</if>
+                <if test="tradeVolume != null">#{tradeVolume},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.StockMarketIndexInfo">
+        update stock_market_index_info
+        <set>
+                <if test="markId != null">
+                    mark_Id = #{markId},
+                </if>
+                <if test="curTime != null">
+                    cur_time = #{curTime},
+                </if>
+                <if test="markName != null">
+                    mark_name = #{markName},
+                </if>
+                <if test="curPoint != null">
+                    cur_point = #{curPoint},
+                </if>
+                <if test="currentPrice != null">
+                    current_price = #{currentPrice},
+                </if>
+                <if test="updownRate != null">
+                    updown_rate = #{updownRate},
+                </if>
+                <if test="tradeAccount != null">
+                    trade_account = #{tradeAccount},
+                </if>
+                <if test="tradeVolume != null">
+                    trade_volume = #{tradeVolume},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mozi.stock.entity.StockMarketIndexInfo">
+        update stock_market_index_info
+        set 
+            mark_Id =  #{markId},
+            cur_time =  #{curTime},
+            mark_name =  #{markName},
+            cur_point =  #{curPoint},
+            current_price =  #{currentPrice},
+            updown_rate =  #{updownRate},
+            trade_account =  #{tradeAccount},
+            trade_volume =  #{tradeVolume}
+        where   id = #{id} 
+    </update>
+</mapper>

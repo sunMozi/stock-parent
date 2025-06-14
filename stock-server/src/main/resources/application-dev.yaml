@@ -1,0 +1,13 @@
+server:
+  port: 8081
+spring:
+  config:
+    import:
+      - classpath:dev/druid.yaml
+      - classpath:dev/mybatis.yaml
+      - classpath:dev/pagehelper.yaml
+      - classpath:dev/monitor.yaml
+      - classpath:dev/redis.yaml
+      - classpath:dev/custom.yaml
+      - classpath:dev/knife4j.yaml
+      - classpath:dev/devtools.yaml

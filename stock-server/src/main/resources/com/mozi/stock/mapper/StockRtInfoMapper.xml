@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mozi.stock.mapper.StockRtInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.mozi.stock.entity.StockRtInfo">
+            <id property="id" column="id" />
+            <result property="stockCode" column="stock_code" />
+            <result property="curTime" column="cur_time" />
+            <result property="stockName" column="stock_name" />
+            <result property="openPrice" column="open_price" />
+            <result property="preClosePrice" column="pre_close_price" />
+            <result property="curPrice" column="cur_price" />
+            <result property="maxPrice" column="max_price" />
+            <result property="minPrice" column="min_price" />
+            <result property="tradeAmount" column="trade_amount" />
+            <result property="tradeVolume" column="trade_volume" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,stock_code,cur_time,stock_name,open_price,pre_close_price,
+        cur_price,max_price,min_price,trade_amount,trade_volume
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from stock_rt_info
+        where  id = #{id} 
+    </select>
+  <select id="selectByDateTime" resultType="com.mozi.stock.entity.StockRtInfo">
+    select
+    <include refid="Base_Column_List"/>
+    from stock_rt_info
+    where cur_time = #{last}
+  </select>
+  <select id="selectMore" resultType="com.mozi.stock.vo.MoreVO">
+    SELECT aa.trade_amount                                          AS tradeAmt,
+           aa.pre_close_price                                       AS preClosePrice,
+           (aa.max_price - aa.min_price) / aa.pre_close_price       AS amplitude,
+           aa.stock_code                                            AS code,
+           aa.stock_name                                            AS name,
+           aa.cur_time                                              AS curDate,
+           aa.trade_volume                                          AS tradeVol,
+           aa.cur_price - aa.pre_close_price                        AS increase,
+           (aa.cur_price - aa.pre_close_price) / aa.pre_close_price AS upDown,
+           aa.cur_price                                             AS tradePrice
+    FROM stock_rt_info AS aa
+    WHERE aa.cur_time = #{last}
+    ORDER BY upDown DESC
+
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from stock_rt_info
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockRtInfo" useGeneratedKeys="true">
+        insert into stock_rt_info
+        ( id,stock_code,cur_time,stock_name,open_price,pre_close_price,
+        cur_price,max_price,min_price,trade_amount,trade_volume)
+        values (#{id},#{stockCode},#{curTime},#{stockName},#{openPrice},#{preClosePrice},
+        #{curPrice},#{maxPrice},#{minPrice},#{tradeAmount},#{tradeVolume})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockRtInfo" useGeneratedKeys="true">
+        insert into stock_rt_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="stockCode != null">stock_code,</if>
+                <if test="curTime != null">cur_time,</if>
+                <if test="stockName != null">stock_name,</if>
+                <if test="openPrice != null">open_price,</if>
+                <if test="preClosePrice != null">pre_close_price,</if>
+                <if test="curPrice != null">cur_price,</if>
+                <if test="maxPrice != null">max_price,</if>
+                <if test="minPrice != null">min_price,</if>
+                <if test="tradeAmount != null">trade_amount,</if>
+                <if test="tradeVolume != null">trade_volume,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="stockCode != null">#{stockCode},</if>
+                <if test="curTime != null">#{curTime},</if>
+                <if test="stockName != null">#{stockName},</if>
+                <if test="openPrice != null">#{openPrice},</if>
+                <if test="preClosePrice != null">#{preClosePrice},</if>
+                <if test="curPrice != null">#{curPrice},</if>
+                <if test="maxPrice != null">#{maxPrice},</if>
+                <if test="minPrice != null">#{minPrice},</if>
+                <if test="tradeAmount != null">#{tradeAmount},</if>
+                <if test="tradeVolume != null">#{tradeVolume},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.StockRtInfo">
+        update stock_rt_info
+        <set>
+                <if test="stockCode != null">
+                    stock_code = #{stockCode},
+                </if>
+                <if test="curTime != null">
+                    cur_time = #{curTime},
+                </if>
+                <if test="stockName != null">
+                    stock_name = #{stockName},
+                </if>
+                <if test="openPrice != null">
+                    open_price = #{openPrice},
+                </if>
+                <if test="preClosePrice != null">
+                    pre_close_price = #{preClosePrice},
+                </if>
+                <if test="curPrice != null">
+                    cur_price = #{curPrice},
+                </if>
+                <if test="maxPrice != null">
+                    max_price = #{maxPrice},
+                </if>
+                <if test="minPrice != null">
+                    min_price = #{minPrice},
+                </if>
+                <if test="tradeAmount != null">
+                    trade_amount = #{tradeAmount},
+                </if>
+                <if test="tradeVolume != null">
+                    trade_volume = #{tradeVolume},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mozi.stock.entity.StockRtInfo">
+        update stock_rt_info
+        set 
+            stock_code =  #{stockCode},
+            cur_time =  #{curTime},
+            stock_name =  #{stockName},
+            open_price =  #{openPrice},
+            pre_close_price =  #{preClosePrice},
+            cur_price =  #{curPrice},
+            max_price =  #{maxPrice},
+            min_price =  #{minPrice},
+            trade_amount =  #{tradeAmount},
+            trade_volume =  #{tradeVolume}
+        where   id = #{id} 
+    </update>
+</mapper>

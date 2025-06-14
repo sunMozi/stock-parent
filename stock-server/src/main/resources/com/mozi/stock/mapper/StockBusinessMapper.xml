@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mozi.stock.mapper.StockBusinessMapper">
+
+    <resultMap id="BaseResultMap" type="com.mozi.stock.entity.StockBusiness">
+            <id property="secCode" column="sec_code" />
+            <result property="secName" column="sec_name" />
+            <result property="sectorCode" column="sector_code" />
+            <result property="sectorName" column="sector_name" />
+            <result property="business" column="business" />
+            <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        sec_code,sec_name,sector_code,sector_name,business,update_time
+    </sql>
+  <select id="selectAll" resultType="com.mozi.stock.entity.StockBusiness">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    stock_business
+
+  </select>
+
+
+</mapper>

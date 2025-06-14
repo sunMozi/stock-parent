@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mozi.stock.mapper.StockMarketLogPriceMapper">
+
+    <resultMap id="BaseResultMap" type="com.mozi.stock.entity.StockMarketLogPrice">
+            <id property="id" column="id" />
+            <result property="marketCode" column="market_code" />
+            <result property="curDate" column="cur_date" />
+            <result property="preClosePrice" column="pre_close_price" />
+            <result property="openPrice" column="open_price" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,market_code,cur_date,pre_close_price,open_price
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from stock_market_log_price
+        where  id = #{id} 
+    </select>
+  <select id="selectByInnerAndDate" resultType="com.mozi.stock.entity.StockMarketLogPrice">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    stock_market_log_price
+    where
+    market_code in
+    <foreach collection="inner" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+    and cur_date = #{last}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from stock_market_log_price
+        where  id = #{id} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockMarketLogPrice" useGeneratedKeys="true">
+        insert into stock_market_log_price
+        ( id,market_code,cur_date,pre_close_price,open_price)
+        values (#{id},#{marketCode},#{curDate},#{preClosePrice},#{openPrice})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.mozi.stock.entity.StockMarketLogPrice" useGeneratedKeys="true">
+        insert into stock_market_log_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="marketCode != null">market_code,</if>
+                <if test="curDate != null">cur_date,</if>
+                <if test="preClosePrice != null">pre_close_price,</if>
+                <if test="openPrice != null">open_price,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id},</if>
+                <if test="marketCode != null">#{marketCode},</if>
+                <if test="curDate != null">#{curDate},</if>
+                <if test="preClosePrice != null">#{preClosePrice},</if>
+                <if test="openPrice != null">#{openPrice},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.StockMarketLogPrice">
+        update stock_market_log_price
+        <set>
+                <if test="marketCode != null">
+                    market_code = #{marketCode},
+                </if>
+                <if test="curDate != null">
+                    cur_date = #{curDate},
+                </if>
+                <if test="preClosePrice != null">
+                    pre_close_price = #{preClosePrice},
+                </if>
+                <if test="openPrice != null">
+                    open_price = #{openPrice},
+                </if>
+        </set>
+        where   id = #{id} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mozi.stock.entity.StockMarketLogPrice">
+        update stock_market_log_price
+        set 
+            market_code =  #{marketCode},
+            cur_date =  #{curDate},
+            pre_close_price =  #{preClosePrice},
+            open_price =  #{openPrice}
+        where   id = #{id} 
+    </update>
+</mapper>

@@ -1,0 +1,12 @@
+spring:
+  devtools:
+    restart:
+      enabled: true               # 启用热部署
+      poll-interval: 10000       # 每 10 秒扫描一次 classpath 变更
+      quiet-period: 8000         # 变更后需静默 8 秒才触发重启
+      exclude:
+        - static/**
+        - public/**
+        - templates/**
+        - META-INF/**
+        - log/**
