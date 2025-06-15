@@ -14,13 +14,16 @@ import com.mozi.stock.mapper.StockMarketIndexInfoMapper;
 import com.mozi.stock.mapper.StockMarketLogPriceMapper;
 import com.mozi.stock.mapper.StockRtInfoMapper;
 import com.mozi.stock.properties.MarketProperties;
+import com.mozi.stock.properties.ThresholdProperties;
 import com.mozi.stock.response.PageResult;
 import com.mozi.stock.service.StockService;
 import com.mozi.stock.util.DateTimeUtil;
 import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
+import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.UpDownVO;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -38,8 +41,9 @@ import org.springframework.stereotype.Service;
 public class StockServiceImpl implements StockService {
 
 
-  private final StockBusinessMapper stockBusinessMapper;
   private final MarketProperties marketProperties;
+  private final ThresholdProperties thresholdProperties;
+  private final StockBusinessMapper stockBusinessMapper;
   private final StockMarketIndexInfoMapper stockMarketIndexInfoMapper;
   private final StockMarketLogPriceMapper stockMarketLogPriceMapper;
   private final StockBlockRtInfoMapper stockBlockRtInfoMapper;
@@ -47,12 +51,14 @@ public class StockServiceImpl implements StockService {
 
   public StockServiceImpl(StockBusinessMapper stockBusinessMapper,
                           MarketProperties marketProperties,
+                          ThresholdProperties thresholdProperties,
                           StockMarketIndexInfoMapper stockMarketIndexInfoMapper,
                           StockMarketLogPriceMapper stockMarketLogPriceMapper,
                           StockBlockRtInfoMapper stockBlockRtInfoMapper,
                           StockRtInfoMapper stockRtInfoMapper) {
     this.stockBusinessMapper = stockBusinessMapper;
     this.marketProperties = marketProperties;
+    this.thresholdProperties = thresholdProperties;
     this.stockMarketIndexInfoMapper = stockMarketIndexInfoMapper;
     this.stockMarketLogPriceMapper = stockMarketLogPriceMapper;
     this.stockBlockRtInfoMapper = stockBlockRtInfoMapper;
@@ -201,8 +207,31 @@ public class StockServiceImpl implements StockService {
     final LocalDateTime last = LocalDateTime.parse("2021-12-30 09:32:00",
                                                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-    Page<MoreVO> result = PageHelper.startPage(page, pageSize).doSelectPage(() -> stockRtInfoMapper.selectMore(last));
+    Page<MoreVO> result = PageHelper.startPage(page, pageSize)
+                                    .doSelectPage(() -> stockRtInfoMapper.selectMore(last));
 
     return PageResult.of(result.getTotal(), page, pageSize, result.getResult());
+  }
+
+  @Override
+  public UpDownVO<OptionVO> updown() {
+    LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
+    //  TODO 开始时间 模拟 2022-01-06 09:25:00
+
+    LocalDateTime begin = LocalDateTime.parse("2022-01-06 09:25:00",
+                                              DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+    //  TODO 结束时间 模拟 2022-01-06 14:25:00
+    LocalDateTime end = LocalDateTime.parse("2022-01-06 14:25:00",
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+    List<OptionVO> updownList = stockRtInfoMapper.selectUpOrDown(begin,
+                                                                 end,
+                                                                 thresholdProperties.getIncrease());
+    List<OptionVO> downList = stockRtInfoMapper.selectUpOrDown(begin,
+                                                               end,
+                                                               thresholdProperties.getDecrease());
+
+    return UpDownVO.of(updownList, downList);
   }
 }

@@ -20,3 +20,6 @@ stock:
         - int_nikkei # 日经指数
         - b_TWSE # 台湾加权
         - b_FSSTI # 新加坡
+      threshold:
+        increase: 0.10  # 默认涨幅阈值（10%）
+        decrease: -0.10 # 默认跌幅阈值（-10%）

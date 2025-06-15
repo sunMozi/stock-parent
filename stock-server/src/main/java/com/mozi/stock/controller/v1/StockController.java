@@ -9,7 +9,9 @@ import com.mozi.stock.service.StockService;
 import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
+import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.UpDownVO;
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,11 @@ public class StockController implements StockControllerAPI {
 
   public StockController(StockService stockService) {
     this.stockService = stockService;
+  }
+
+  @Override
+  public ResponseResult<UpDownVO<OptionVO>> updown() {
+    return ResponseResult.ok(stockService.updown());
   }
 
   @Override

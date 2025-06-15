@@ -53,6 +53,19 @@
 
 
   </select>
+  <select id="selectUpOrDown" resultType="com.mozi.stock.vo.OptionVO">
+    SELECT DATE_FORMAT(sub.cur_time, '%Y-%m-%d %H:%i:00') AS time,
+           COUNT(*)                                       AS count
+    FROM (SELECT cur_time,
+                 pre_close_price,
+                 cur_price,
+                 (cur_price - pre_close_price) / pre_close_price AS increase_ratio
+          FROM stock_rt_info
+          WHERE cur_time BETWEEN #{startTime} AND #{endTime}) sub
+    WHERE sub.increase_ratio >= #{increaseThreshold}
+    GROUP BY DATE_FORMAT(sub.cur_time, '%Y-%m-%d %H:%i:00')
+    ORDER BY time
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_rt_info
