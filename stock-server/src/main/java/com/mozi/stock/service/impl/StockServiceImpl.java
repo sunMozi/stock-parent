@@ -12,10 +12,12 @@ import com.mozi.stock.mapper.StockMarketIndexInfoMapper;
 import com.mozi.stock.mapper.StockMarketLogPriceMapper;
 import com.mozi.stock.mapper.StockRtInfoMapper;
 import com.mozi.stock.properties.MarketProperties;
+import com.mozi.stock.response.PageResult;
 import com.mozi.stock.service.StockService;
 import com.mozi.stock.util.DateTimeUtil;
 import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
+import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.SectorAllVO;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -189,5 +191,11 @@ public class StockServiceImpl implements StockService {
                       .sorted((o1, o2) -> o1.getIncrease().subtract(o2.getIncrease()).intValue())
                       .limit(10)
                       .toList();
+  }
+
+  @Override
+  public PageResult<MoreVO> more(Integer page, Integer pageSize) {
+    LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
+    return null;
   }
 }

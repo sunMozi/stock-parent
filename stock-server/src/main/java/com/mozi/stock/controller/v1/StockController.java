@@ -3,14 +3,14 @@ package com.mozi.stock.controller.v1;
 
 import com.mozi.stock.api.StockControllerAPI;
 import com.mozi.stock.entity.StockBusiness;
+import com.mozi.stock.response.PageResult;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.service.StockService;
 import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
+import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.SectorAllVO;
-import jakarta.annotation.Resource;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,6 +25,11 @@ public class StockController implements StockControllerAPI {
 
   public StockController(StockService stockService) {
     this.stockService = stockService;
+  }
+
+  @Override
+  public ResponseResult<PageResult<MoreVO>> more(Integer page, Integer pageSize) {
+    return ResponseResult.ok(stockService.more(page, pageSize));
   }
 
   @Override

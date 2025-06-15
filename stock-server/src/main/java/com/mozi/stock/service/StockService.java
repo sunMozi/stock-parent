@@ -2,8 +2,10 @@ package com.mozi.stock.service;
 
 
 import com.mozi.stock.entity.StockBusiness;
+import com.mozi.stock.response.PageResult;
 import com.mozi.stock.vo.IncreaseVO;
 import com.mozi.stock.vo.InnerMarketVO;
+import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.SectorAllVO;
 import java.util.List;
 
@@ -21,4 +23,6 @@ public interface StockService {
   List<SectorAllVO> sectorAll();
 
   List<IncreaseVO> stockIncrease();
+
+  PageResult<MoreVO> more(Integer page, Integer pageSize);
 }
