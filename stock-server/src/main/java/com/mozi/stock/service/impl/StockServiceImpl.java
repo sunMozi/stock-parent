@@ -1,6 +1,8 @@
 package com.mozi.stock.service.impl;
 
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.mozi.stock.entity.StockBlockRtInfo;
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.entity.StockMarketIndexInfo;
@@ -195,7 +197,12 @@ public class StockServiceImpl implements StockService {
 
   @Override
   public PageResult<MoreVO> more(Integer page, Integer pageSize) {
-    LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
-    return null;
+    //LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
+    final LocalDateTime last = LocalDateTime.parse("2021-12-30 09:32:00",
+                                                   DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+    Page<MoreVO> result = PageHelper.startPage(page, pageSize).doSelectPage(() -> stockRtInfoMapper.selectMore(last));
+
+    return PageResult.of(result.getTotal(), page, pageSize, result.getResult());
   }
 }

@@ -35,6 +35,24 @@
     from stock_rt_info
     where cur_time = #{last}
   </select>
+  <select id="selectMore" resultType="com.mozi.stock.vo.MoreVO">
+
+    SELECT aa.trade_amount                                          AS tradeAmt,
+           aa.pre_close_price                                       AS preClosePrice,
+           (aa.max_price - aa.min_price) / aa.pre_close_price       AS amplitude,
+           aa.stock_code                                            AS code,
+           aa.stock_name                                            AS name,
+           aa.cur_time                                              AS curDate,
+           aa.trade_volume                                          AS tradeVol,
+           aa.cur_price - aa.pre_close_price                        AS increase,
+           (aa.cur_price - aa.pre_close_price) / aa.pre_close_price AS upDown,
+           aa.cur_price                                             AS tradePrice
+    FROM stock_rt_info AS aa
+    WHERE aa.cur_time = #{last}
+    ORDER BY upDown DESC
+
+
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_rt_info
