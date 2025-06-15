@@ -10,6 +10,8 @@ import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
 import com.mozi.stock.vo.UpDownVO;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @RequestMapping(path = "/api/quot")
 public interface StockControllerAPI {
+
+
+  @GetMapping("/stock/export")
+  void export(@RequestParam("page") Integer page,
+              @RequestParam("pageSize") Integer pageSize,
+              HttpServletResponse response) throws IOException;
 
   @GetMapping("/stock/updown/count")
   ResponseResult<UpDownVO<OptionVO>> updown();

@@ -44,7 +44,7 @@
     <fastjson2.version>2.0.50</fastjson2.version>
     <druid-spring-boot-3-starter.version>1.2.25</druid-spring-boot-3-starter.version>
     <jjwt.version>0.12.5</jjwt.version>
-    <easyexcel.version>3.3.2</easyexcel.version>
+    <easyexcel.version>4.0.3</easyexcel.version>
     <xxl-job-core.version>2.4.2</xxl-job-core.version>
     <guava.version>33.2.0-jre</guava.version>
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>

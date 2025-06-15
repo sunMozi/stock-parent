@@ -1,13 +1,18 @@
 package com.mozi.stock.service.impl;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.excel.EasyExcel;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.mozi.stock.constant.Constants;
+import com.mozi.stock.dto.StockInfoExcelDTO;
 import com.mozi.stock.entity.StockBlockRtInfo;
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.entity.StockMarketIndexInfo;
 import com.mozi.stock.entity.StockMarketLogPrice;
 import com.mozi.stock.entity.StockRtInfo;
+import com.mozi.stock.handler.CustomSheetWriteHandler;
 import com.mozi.stock.mapper.StockBlockRtInfoMapper;
 import com.mozi.stock.mapper.StockBusinessMapper;
 import com.mozi.stock.mapper.StockMarketIndexInfoMapper;
@@ -24,12 +29,17 @@ import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
 import com.mozi.stock.vo.UpDownVO;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -234,4 +244,28 @@ public class StockServiceImpl implements StockService {
 
     return UpDownVO.of(updownList, downList);
   }
+
+  @Override
+  public void export(Integer page, Integer pageSize, HttpServletResponse response)
+      throws IOException {
+    String fileName = Constants.EXCEL_FILE_PREFIX + page + Constants.EXCEL_FILE_SUFFIX;
+    response.setContentType("application/vnd.ms-excel");
+    response.setCharacterEncoding("UTF-8");
+    response.setHeader("Content-Disposition",
+                       "attachment;filename*=UTF-8''" +
+                           URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+
+    AtomicInteger counter = new AtomicInteger(1);
+    EasyExcel.write(response.getOutputStream(), StockInfoExcelDTO.class)
+             .sheet("股票信息")
+             .registerWriteHandler(new CustomSheetWriteHandler())
+             .doWrite(this.more(page, pageSize).getRows().stream().map(vo -> {
+               StockInfoExcelDTO dto = new StockInfoExcelDTO();
+               BeanUtil.copyProperties(vo, dto);
+               dto.setNum(counter.getAndIncrement());
+               return dto;
+             }).toList());
+
+  }
+
 }

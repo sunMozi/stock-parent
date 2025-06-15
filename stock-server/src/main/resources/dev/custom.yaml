@@ -23,3 +23,8 @@ stock:
       threshold:
         increase: 0.10  # 默认涨幅阈值（10%）
         decrease: -0.10 # 默认跌幅阈值（-10%）
+
+spring:
+  devtools:
+    restart:
+      enabled: false

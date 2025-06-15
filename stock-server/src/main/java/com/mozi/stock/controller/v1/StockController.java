@@ -12,6 +12,8 @@ import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
 import com.mozi.stock.vo.UpDownVO;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,13 @@ public class StockController implements StockControllerAPI {
 
   public StockController(StockService stockService) {
     this.stockService = stockService;
+  }
+
+
+  @Override
+  public void export(Integer page, Integer pageSize, HttpServletResponse response)
+      throws IOException {
+    stockService.export(page, pageSize, response);
   }
 
   @Override
