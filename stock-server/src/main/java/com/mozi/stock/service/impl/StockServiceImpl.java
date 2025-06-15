@@ -28,6 +28,7 @@ import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -225,7 +227,6 @@ public class StockServiceImpl implements StockService {
 
   @Override
   public UpDownVO<OptionVO> updown() {
-    LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
     //  TODO 开始时间 模拟 2022-01-06 09:25:00
 
     LocalDateTime begin = LocalDateTime.parse("2022-01-06 09:25:00",
@@ -267,5 +268,56 @@ public class StockServiceImpl implements StockService {
              }).toList());
 
   }
+
+  @Override
+  public TradeAmtVO<OptionVO> tradeAmt() {
+    // 获取当前与前一个交易日的时间区间
+    LocalDateTime todayCloseTime = DateTimeUtil.getCloseDate(DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now()));
+    LocalDateTime todayOpenTime = DateTimeUtil.getOpenDate(todayCloseTime);
+    LocalDateTime yesterdayCloseTime = DateTimeUtil.getCloseDate(DateTimeUtil.getPreviousTradingDay(todayCloseTime));
+    LocalDateTime yesterdayOpenTime = DateTimeUtil.getOpenDate(yesterdayCloseTime);
+
+    // ===== 模拟数据（开发阶段使用） =====
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    todayOpenTime = parseTime("2021-12-28 09:30:00", formatter);
+    todayCloseTime = parseTime("2021-12-28 14:30:00", formatter);
+    yesterdayOpenTime = parseTime("2021-12-27 09:30:00", formatter);
+    yesterdayCloseTime = parseTime("2021-12-27 14:30:00", formatter);
+    // ==================================
+
+    List<OptionVO> allRecords = stockMarketIndexInfoMapper.selectTradeCount(
+        yesterdayOpenTime, todayCloseTime, marketProperties.getInner()
+    );
+
+    LocalDate today = todayOpenTime.toLocalDate();
+    LocalDate yesterday = yesterdayOpenTime.toLocalDate();
+
+    // 拆分为今日与昨日数据
+    List<OptionVO> todayList = filterByDate(allRecords, today, formatter);
+    List<OptionVO> yesterdayList = filterByDate(allRecords, yesterday, formatter);
+
+    return TradeAmtVO.of(todayList, yesterdayList);
+  }
+
+
+  /**
+   * 解析字符串为 LocalDateTime
+   */
+  private LocalDateTime parseTime(String timeStr, DateTimeFormatter formatter) {
+    return LocalDateTime.parse(timeStr, formatter);
+  }
+
+  /**
+   * 过滤指定日期的数据记录
+   */
+  private List<OptionVO> filterByDate(List<OptionVO> sourceList, LocalDate targetDate, DateTimeFormatter formatter) {
+    return sourceList.stream()
+                     .filter(vo -> {
+                       LocalDateTime time = LocalDateTime.parse(vo.getTime(), formatter);
+                       return time.toLocalDate().equals(targetDate);
+                     })
+                     .toList();
+  }
+
 
 }

@@ -1,6 +1,7 @@
 package com.mozi.stock.mapper;
 
 import com.mozi.stock.entity.StockMarketIndexInfo;
+import com.mozi.stock.vo.OptionVO;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,8 @@ public interface StockMarketIndexInfoMapper {
 
   List<StockMarketIndexInfo> selectByInnerAndTime(@Param("inner") List<String> inner,
                                                   @Param("last") LocalDateTime last);
+
+  List<OptionVO> selectTradeCount(@Param("b") LocalDateTime t1Open,
+                                  @Param("e") LocalDateTime tClose,
+                                  @Param("inner") List<String> inner);
 }

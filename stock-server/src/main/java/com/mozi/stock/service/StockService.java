@@ -8,6 +8,7 @@ import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,4 +34,6 @@ public interface StockService {
   UpDownVO<OptionVO> updown();
 
   void export(Integer page, Integer pageSize, HttpServletResponse response) throws IOException;
+
+  TradeAmtVO<OptionVO> tradeAmt();
 }

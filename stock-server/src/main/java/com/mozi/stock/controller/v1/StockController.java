@@ -11,6 +11,7 @@ import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,6 +32,11 @@ public class StockController implements StockControllerAPI {
     this.stockService = stockService;
   }
 
+
+  @Override
+  public ResponseResult<TradeAmtVO<OptionVO>> tradeAmt() {
+    return ResponseResult.ok(stockService.tradeAmt());
+  }
 
   @Override
   public void export(Integer page, Integer pageSize, HttpServletResponse response)

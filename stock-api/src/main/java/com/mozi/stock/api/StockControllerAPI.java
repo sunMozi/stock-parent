@@ -9,6 +9,7 @@ import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @RequestMapping(path = "/api/quot")
 public interface StockControllerAPI {
+
+  @GetMapping("/stock/tradevol")
+  ResponseResult<TradeAmtVO<OptionVO>> tradeAmt();
 
 
   @GetMapping("/stock/export")

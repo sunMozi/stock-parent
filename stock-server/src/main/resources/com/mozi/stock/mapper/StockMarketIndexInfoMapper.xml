@@ -40,6 +40,18 @@
     </foreach>
     and cur_time = #{last}
   </select>
+  <select id="selectTradeCount" resultType="com.mozi.stock.vo.OptionVO">
+    select
+    sum(trade_account) as count,
+    cur_time as time
+    from stock_market_index_info
+    where cur_time between #{b} and #{e}
+    and mark_Id in
+    <foreach collection="inner" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+    group by cur_time
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_market_index_info
