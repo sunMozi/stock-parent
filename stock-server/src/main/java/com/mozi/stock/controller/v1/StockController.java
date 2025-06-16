@@ -7,10 +7,12 @@ import com.mozi.stock.response.PageResult;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.service.StockService;
 import com.mozi.stock.vo.IncreaseVO;
+import com.mozi.stock.vo.InfoVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.StockUpDownVO;
 import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +34,11 @@ public class StockController implements StockControllerAPI {
     this.stockService = stockService;
   }
 
+
+  @Override
+  public ResponseResult<StockUpDownVO<InfoVO>> stockUpdown() {
+    return ResponseResult.ok(stockService.stockUpdown());
+  }
 
   @Override
   public ResponseResult<TradeAmtVO<OptionVO>> tradeAmt() {

@@ -66,6 +66,34 @@
     GROUP BY DATE_FORMAT(sub.cur_time, '%Y-%m-%d %H:%i:00')
     ORDER BY time
   </select>
+  <select id="selectStockUpDown" resultType="com.mozi.stock.vo.InfoVO">
+    SELECT COUNT(grouped_result.price_range_label) AS count,
+           grouped_result.price_range_label        AS title
+    FROM (SELECT CASE
+                   WHEN stock_with_rate.change_rate &gt;= -0.10 AND
+                        stock_with_rate.change_rate &lt; -0.07 THEN '-10~-7'
+                   WHEN stock_with_rate.change_rate &gt;= -0.07 AND
+                        stock_with_rate.change_rate &lt; -0.05 THEN '-7~-5'
+                   WHEN stock_with_rate.change_rate &gt;= -0.05 AND
+                        stock_with_rate.change_rate &lt; -0.03 THEN '-5~-3'
+                   WHEN stock_with_rate.change_rate &gt;= -0.03 AND
+                        stock_with_rate.change_rate &lt; 0 THEN '-3~0'
+                   WHEN stock_with_rate.change_rate &gt;= 0 AND
+                        stock_with_rate.change_rate &lt; 0.03 THEN '0~3'
+                   WHEN stock_with_rate.change_rate &gt;= 0.03 AND
+                        stock_with_rate.change_rate &lt; 0.05 THEN '3~5'
+                   WHEN stock_with_rate.change_rate &gt;= 0.05 AND
+                        stock_with_rate.change_rate &lt; 0.07 THEN '5~7'
+                   WHEN stock_with_rate.change_rate &gt;= 0.07 AND
+                        stock_with_rate.change_rate &lt; 0.10 THEN '7~10'
+                   END AS price_range_label
+          FROM (SELECT sri.*,
+                       (sri.cur_price - sri.pre_close_price) / sri.pre_close_price AS change_rate
+                FROM stock_rt_info sri
+                WHERE sri.cur_time = #{last}) AS stock_with_rate) AS grouped_result
+    GROUP BY grouped_result.price_range_label
+    ORDER BY grouped_result.price_range_label
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_rt_info

@@ -1,9 +1,9 @@
 package com.mozi.stock.common;
 
 
+import java.time.LocalDateTime;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.CountDownLatch;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -16,20 +16,17 @@ public class TimerTaskTests {
 
   @Test
   public void testWithLatch() throws InterruptedException {
-    CountDownLatch latch = new CountDownLatch(1);
     Timer timer = new Timer();
+
     TimerTask task = new TimerTask() {
       @Override
       public void run() {
-        System.out.println("定时任务执行了");
-        latch.countDown(); // 通知主线程继续执行
+        System.out.println("我执行了：" + LocalDateTime.now());
       }
     };
 
-    timer.schedule(task, 1000);
+    timer.schedule(task, 1000, 1000);
 
-    // 最多等待 2 秒
-    latch.await();
   }
 
 

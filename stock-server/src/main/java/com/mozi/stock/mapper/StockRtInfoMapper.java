@@ -1,6 +1,7 @@
 package com.mozi.stock.mapper;
 
 import com.mozi.stock.entity.StockRtInfo;
+import com.mozi.stock.vo.InfoVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import java.math.BigDecimal;
@@ -36,4 +37,5 @@ public interface StockRtInfoMapper {
                                 @Param("endTime") LocalDateTime endTime,
                                 @Param("increaseThreshold") Double increaseThreshold);
 
+  List<InfoVO> selectStockUpDown(@Param("last") LocalDateTime last);
 }

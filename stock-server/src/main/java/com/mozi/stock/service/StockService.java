@@ -4,10 +4,12 @@ package com.mozi.stock.service;
 import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.response.PageResult;
 import com.mozi.stock.vo.IncreaseVO;
+import com.mozi.stock.vo.InfoVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.StockUpDownVO;
 import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,4 +38,6 @@ public interface StockService {
   void export(Integer page, Integer pageSize, HttpServletResponse response) throws IOException;
 
   TradeAmtVO<OptionVO> tradeAmt();
+
+  StockUpDownVO<InfoVO> stockUpdown();
 }

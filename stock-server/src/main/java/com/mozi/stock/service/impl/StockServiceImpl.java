@@ -24,10 +24,12 @@ import com.mozi.stock.response.PageResult;
 import com.mozi.stock.service.StockService;
 import com.mozi.stock.util.DateTimeUtil;
 import com.mozi.stock.vo.IncreaseVO;
+import com.mozi.stock.vo.InfoVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.StockUpDownVO;
 import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
@@ -272,9 +274,11 @@ public class StockServiceImpl implements StockService {
   @Override
   public TradeAmtVO<OptionVO> tradeAmt() {
     // 获取当前与前一个交易日的时间区间
-    LocalDateTime todayCloseTime = DateTimeUtil.getCloseDate(DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now()));
+    LocalDateTime todayCloseTime = DateTimeUtil.getCloseDate(DateTimeUtil.getLastDateTime4Stock(
+        LocalDateTime.now()));
     LocalDateTime todayOpenTime = DateTimeUtil.getOpenDate(todayCloseTime);
-    LocalDateTime yesterdayCloseTime = DateTimeUtil.getCloseDate(DateTimeUtil.getPreviousTradingDay(todayCloseTime));
+    LocalDateTime yesterdayCloseTime = DateTimeUtil.getCloseDate(DateTimeUtil.getPreviousTradingDay(
+        todayCloseTime));
     LocalDateTime yesterdayOpenTime = DateTimeUtil.getOpenDate(yesterdayCloseTime);
 
     // ===== 模拟数据（开发阶段使用） =====
@@ -285,9 +289,9 @@ public class StockServiceImpl implements StockService {
     yesterdayCloseTime = parseTime("2021-12-27 14:30:00", formatter);
     // ==================================
 
-    List<OptionVO> allRecords = stockMarketIndexInfoMapper.selectTradeCount(
-        yesterdayOpenTime, todayCloseTime, marketProperties.getInner()
-    );
+    List<OptionVO> allRecords = stockMarketIndexInfoMapper.selectTradeCount(yesterdayOpenTime,
+                                                                            todayCloseTime,
+                                                                            marketProperties.getInner());
 
     LocalDate today = todayOpenTime.toLocalDate();
     LocalDate yesterday = yesterdayOpenTime.toLocalDate();
@@ -297,6 +301,18 @@ public class StockServiceImpl implements StockService {
     List<OptionVO> yesterdayList = filterByDate(allRecords, yesterday, formatter);
 
     return TradeAmtVO.of(todayList, yesterdayList);
+  }
+
+  @Override
+  public StockUpDownVO<InfoVO> stockUpdown() {
+    LocalDateTime last = DateTimeUtil.getLastDateTime4Stock(LocalDateTime.now());
+    // TODO mock data
+    last = LocalDateTime.parse("2022-01-06 09:55:00",
+                               DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    // TODO mock data
+    List<InfoVO> infoVOS = stockRtInfoMapper.selectStockUpDown(last);
+
+    return StockUpDownVO.of(last, infoVOS);
   }
 
 
@@ -310,13 +326,13 @@ public class StockServiceImpl implements StockService {
   /**
    * 过滤指定日期的数据记录
    */
-  private List<OptionVO> filterByDate(List<OptionVO> sourceList, LocalDate targetDate, DateTimeFormatter formatter) {
-    return sourceList.stream()
-                     .filter(vo -> {
-                       LocalDateTime time = LocalDateTime.parse(vo.getTime(), formatter);
-                       return time.toLocalDate().equals(targetDate);
-                     })
-                     .toList();
+  private List<OptionVO> filterByDate(List<OptionVO> sourceList,
+                                      LocalDate targetDate,
+                                      DateTimeFormatter formatter) {
+    return sourceList.stream().filter(vo -> {
+      LocalDateTime time = LocalDateTime.parse(vo.getTime(), formatter);
+      return time.toLocalDate().equals(targetDate);
+    }).toList();
   }
 
 

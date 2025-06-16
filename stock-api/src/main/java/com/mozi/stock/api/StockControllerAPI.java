@@ -5,10 +5,12 @@ import com.mozi.stock.entity.StockBusiness;
 import com.mozi.stock.response.PageResult;
 import com.mozi.stock.response.ResponseResult;
 import com.mozi.stock.vo.IncreaseVO;
+import com.mozi.stock.vo.InfoVO;
 import com.mozi.stock.vo.InnerMarketVO;
 import com.mozi.stock.vo.MoreVO;
 import com.mozi.stock.vo.OptionVO;
 import com.mozi.stock.vo.SectorAllVO;
+import com.mozi.stock.vo.StockUpDownVO;
 import com.mozi.stock.vo.TradeAmtVO;
 import com.mozi.stock.vo.UpDownVO;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @RequestMapping(path = "/api/quot")
 public interface StockControllerAPI {
+
+  @GetMapping("/stock/updown")
+  ResponseResult<StockUpDownVO<InfoVO>> stockUpdown();
+
 
   @GetMapping("/stock/tradevol")
   ResponseResult<TradeAmtVO<OptionVO>> tradeAmt();
