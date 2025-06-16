@@ -42,8 +42,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.stereotype.Service;
 
 /**
@@ -310,7 +314,18 @@ public class StockServiceImpl implements StockService {
     last = LocalDateTime.parse("2022-01-06 09:55:00",
                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     // TODO mock data
+
+    List<String> ranges = List.of("-10~-7", "-7~-5", "-5~-3", "-3~0", "0~3", "3~5", "5~7", "7~10");
+
     List<InfoVO> infoVOS = stockRtInfoMapper.selectStockUpDown(last);
+
+    // 按 ranges 顺序排序
+    Map<String, Integer> orderMap = IntStream.range(0, ranges.size())
+                                             .boxed()
+                                             .collect(Collectors.toMap(ranges::get, i -> i));
+
+    infoVOS.sort(Comparator.comparingInt(vo -> orderMap.getOrDefault(vo.getTitle(),
+                                                                     Integer.MAX_VALUE)));
 
     return StockUpDownVO.of(last, infoVOS);
   }
