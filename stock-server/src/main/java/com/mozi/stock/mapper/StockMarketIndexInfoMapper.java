@@ -33,4 +33,6 @@ public interface StockMarketIndexInfoMapper {
   List<OptionVO> selectTradeCount(@Param("b") LocalDateTime t1Open,
                                   @Param("e") LocalDateTime tClose,
                                   @Param("inner") List<String> inner);
+
+  void insertBatch(List<StockMarketIndexInfo> stockMarketIndexInfoList);
 }

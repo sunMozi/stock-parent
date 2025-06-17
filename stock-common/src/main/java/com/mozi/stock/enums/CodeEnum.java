@@ -46,7 +46,12 @@ public enum CodeEnum implements Code {
   OPERATION_MENU_PERMISSION_UPDATE(0, "操作的菜单权限存在子集关联不允许变更"),
   ROLE_PERMISSION_RELATION(0, "该菜单权限存在子集关联，不允许删除"),
   OLD_PASSWORD_ERROR(0, "旧密码不匹配"),
-  NOT_PERMISSION(3, "没有权限访问该资源");
+  NOT_PERMISSION(3, "没有权限访问该资源"),
+
+
+  STOCK_INDEX_FETCH_FAILED(2001, "获取大盘指数信息失败"),
+  STOCK_INDEX_NOT_CONFIGURED(2002, "未配置大盘指数"),
+  MARKET_DATA_EMPTY(2003, "获取大盘行情数据为空");
 
   private final int code;
   private final String msg;

@@ -89,7 +89,17 @@
                 <if test="tradeVolume != null">#{tradeVolume},</if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.StockMarketIndexInfo">
+  <insert id="insertBatch">
+    insert into stock_market_index_info
+    (id,mark_Id,cur_time,mark_name,cur_point,current_price,
+    updown_rate,trade_account,trade_volume)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id},#{item.markId},#{item.curTime},#{item.markName},#{item.curPoint},#{item.currentPrice},
+      #{item.updownRate},#{item.tradeAccount},#{item.tradeVolume})
+    </foreach>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mozi.stock.entity.StockMarketIndexInfo">
         update stock_market_index_info
         <set>
                 <if test="markId != null">

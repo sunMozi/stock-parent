@@ -2,6 +2,7 @@ package com.mozi.stock.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,49 +10,51 @@ import lombok.Data;
  * @TableName stock_market_index_info
  */
 @Data
+@Builder
 public class StockMarketIndexInfo {
-    /**
-     * 主键字段（无业务意义）
-     */
-    private String id;
 
-    /**
-     * 大盘ID
-     */
-    private String markId;
+  /**
+   * 主键字段（无业务意义）
+   */
+  private String id;
 
-    /**
-     * 当前时间
-     */
-    private LocalDateTime curTime;
+  /**
+   * 大盘ID
+   */
+  private String markId;
 
-    /**
-     * 指数名称
-     */
-    private String markName;
+  /**
+   * 当前时间
+   */
+  private LocalDateTime curTime;
 
-    /**
-     * 当前点数
-     */
-    private BigDecimal curPoint;
+  /**
+   * 指数名称
+   */
+  private String markName;
 
-    /**
-     * 当前价格
-     */
-    private BigDecimal currentPrice;
+  /**
+   * 当前点数
+   */
+  private BigDecimal curPoint;
 
-    /**
-     * 涨跌率
-     */
-    private BigDecimal updownRate;
+  /**
+   * 当前价格
+   */
+  private BigDecimal currentPrice;
 
-    /**
-     * 成交量（多少手）
-     */
-    private Long tradeAccount;
+  /**
+   * 涨跌率
+   */
+  private BigDecimal updownRate;
 
-    /**
-     * 成交额(万元)
-     */
-    private Long tradeVolume;
+  /**
+   * 成交量（多少手）
+   */
+  private Long tradeAccount;
+
+  /**
+   * 成交额(万元)
+   */
+  private Long tradeVolume;
 }
